@@ -1,0 +1,134 @@
+managed implementation in class ZBP_R_RAF_AGENT unique;
+strict ( 2 );
+with draft;
+extensible;
+define behavior for ZR_RAF_AGENT alias Agent
+persistent table zraf_agent
+extensible
+draft table zraf_agent_d
+etag master LocalLastChanged
+lock master total etag LastChanged
+authorization master ( global )
+{
+  field ( mandatory : create )
+  LlmFuncName;
+
+  field ( readonly )
+  CreatedBy,
+  ChangedBy,
+  CreatedOn,
+  LastChanged,
+  LocalLastChanged;
+
+  field ( readonly : update )
+  LlmFuncName;
+
+  association _context { create; with draft; }
+  association _parameters { create; with draft; }
+
+  create;
+  update;
+  delete;
+
+  draft action Activate optimized;
+  draft action Discard;
+  draft action Edit;
+  draft action Resume;
+  draft determine action Prepare;
+
+  mapping for zraf_agent corresponding extensible
+    {
+      LlmFuncName      = llm_func_name;
+      IsActive         = is_active;
+      LlmSummary       = llm_summary;
+      RapBoName        = rap_bo_name;
+      RapBoAction      = rap_bo_action;
+      CreatedBy        = created_by;
+      ChangedBy        = changed_by;
+      CreatedOn        = created_on;
+      LastChanged      = last_changed;
+      LocalLastChanged = local_last_changed;
+    }
+
+}
+
+define behavior for ZR_RAF_AGENT_CNTXT alias Context
+persistent table zraf_agent_cntxt
+extensible
+draft table zraf_agnt_ctx_d
+etag dependent
+lock dependent by _agent
+authorization dependent by _agent
+{
+  field ( mandatory : create )
+  LlmFuncName;
+
+  field ( readonly )
+  SequenceId,
+  CreatedBy,
+  ChangedBy,
+  CreatedOn,
+  LastChanged;
+
+  association _agent { with draft; }
+
+  field ( readonly : update )
+  LlmFuncName;
+
+  update;
+  delete;
+
+  mapping for zraf_agent_cntxt corresponding extensible
+    {
+      LlmFuncName = llm_func_name;
+      SequenceId  = sequence_id;
+      Chunk       = chunk;
+      CreatedBy   = created_by;
+      ChangedBy   = changed_by;
+      CreatedOn   = created_on;
+      LastChanged = last_changed;
+    }
+
+}
+
+define behavior for ZR_RAF_AGENT_PARAM alias Parameter
+persistent table zraf_agent_param
+extensible
+draft table zraf_agnt_prm_d
+etag dependent
+lock dependent by _agent
+authorization dependent by _agent
+{
+  field ( mandatory : create )
+  LlmFuncName, ParameterId;
+
+  field ( readonly )
+  CreatedBy,
+  ChangedBy,
+  CreatedOn,
+  LastChanged;
+
+  association _agent { with draft; }
+
+  field ( readonly : update )
+  LlmFuncName, ParameterId;
+
+  update;
+  delete;
+
+  mapping for zraf_agent_param corresponding extensible
+    {
+      LlmFuncName    = llm_func_name;
+      ParameterId    = parameter_id;
+      ParentId       = parent_id;
+      ParamName      = param_name;
+      LlmType        = llm_type;
+      IsRequired     = is_required;
+      LlmDescription = llm_description;
+      CreatedBy      = created_by;
+      ChangedBy      = changed_by;
+      CreatedOn      = created_on;
+      LastChanged    = last_changed;
+    }
+
+}

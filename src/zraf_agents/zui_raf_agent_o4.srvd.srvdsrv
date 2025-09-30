@@ -1,0 +1,14 @@
+@EndUserText: {
+  label: 'Service Definition for ZC_RAF_AGENT'
+}
+@ObjectModel: {
+  leadingEntity: {
+    name: 'ZC_RAF_AGENT'
+  }
+}
+define service ZUI_RAF_AGENT_O4
+  provider contracts odata_v4_ui {
+  expose ZC_RAF_AGENT       as LLMAgent;
+  expose ZC_RAF_AGENT_CNTXT as LLMContext;
+  expose ZC_RAF_AGENT_PARAM as LLMParameter;
+}

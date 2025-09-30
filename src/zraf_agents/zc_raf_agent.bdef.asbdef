@@ -1,0 +1,43 @@
+projection implementation in class ZBP_C_RAF_AGENT unique;
+strict ( 2 );
+extensible;
+use draft;
+use side effects;
+define behavior for ZC_RAF_AGENT alias Agent
+extensible
+use etag
+{
+  use create;
+  use update;
+  use delete;
+
+  use action Edit;
+  use action Activate;
+  use action Discard;
+  use action Resume;
+  use action Prepare;
+
+  use association _context { create; with draft; }
+  use association _parameters { create; with draft; }
+
+}
+
+define behavior for ZC_RAF_AGENT_CNTXT
+use etag
+extensible
+{
+  use update;
+  use delete;
+  use association _agent { with draft; }
+
+}
+
+define behavior for ZC_RAF_AGENT_PARAM
+use etag
+extensible
+{
+  use update;
+  use delete;
+  use association _agent { with draft; }
+
+}
